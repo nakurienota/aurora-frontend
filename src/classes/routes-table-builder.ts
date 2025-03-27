@@ -3,9 +3,9 @@ import {Models, Raid, RouteData} from './models';
 
 class RoutesTableBuilder {
 
-    parseFileAndCreateHtml(input: string): HTMLDivElement {
-        const jsonData: string = JSON.parse(input);
-        const flightData: RouteData = this.parseFlightData(jsonData);
+    parseFileAndCreateHtml(input: ProgressEvent<FileReader>): HTMLDivElement {
+        const jsonData: string = HtmlUtil.parseToString(input);
+        const flightData = this.parseFlightData(jsonData);
         return this.createHtmlTable(flightData);
     }
 

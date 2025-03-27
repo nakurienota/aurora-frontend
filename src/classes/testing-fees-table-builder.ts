@@ -2,23 +2,15 @@ import {Report, TariffTestingServiceInput, TestCaseData, TestTaxData} from './mo
 import HtmlUtil from '../util/htmlutil';
 
 class TestingFeesTableBuilder {
-    createReportTable(data: TariffTestingServiceInput): HTMLDivElement {
-        const htmlContainer = HtmlUtil.create('div', 'table-data-div');
-        const header = HtmlUtil.create('h2');
-        header.textContent = `Report v1.2 taxes ${new Date()}`;
-        htmlContainer.appendChild(header);
-        const totalMixvel = HtmlUtil.create('h4');
-        totalMixvel.textContent = `Total mixvel ${data.mixvelTotal}`;
-        htmlContainer.appendChild(totalMixvel);
-        const totalGds = HtmlUtil.create('h4');
-        totalGds.textContent = `Total gds ${data.gdsTotal}`;
-        htmlContainer.appendChild(totalGds);
-        const testCasesSuccess = HtmlUtil.create('h4');
-        testCasesSuccess.textContent = `gds full answer in mixvel ${data.testCasesSuccess}`;
-        htmlContainer.appendChild(testCasesSuccess);
-        const separateFareSuccess = HtmlUtil.create('h4');
-        separateFareSuccess.textContent = `gds separate result in mixvel ${data.separateFareSuccess}`;
-        htmlContainer.appendChild(separateFareSuccess);
+
+    parseFileAndCreateFeesHtml(input: ProgressEvent<FileReader>): HTMLDivElement {
+        const jsonData: string = HtmlUtil.parseToString(input);
+        const flightData = this.parseTestingFeesData(jsonData);
+        return this.createHtml(flightData);
+    }
+
+    private createHtml(data: TariffTestingServiceInput): HTMLDivElement {
+        const htmlContainer = this.createDefaultHeaderForTariffTesting(data);
 
         const table = HtmlUtil.create('table');
         const thead = HtmlUtil.create('thead');
@@ -109,7 +101,7 @@ class TestingFeesTableBuilder {
         return htmlContainer;
     }
 
-    parseTestingFeesData(json: any): TariffTestingServiceInput {
+    private parseTestingFeesData(json: any): TariffTestingServiceInput {
         const reports = json.reports.map(
             (report: Report) =>
                 new Report(
@@ -127,7 +119,6 @@ class TestingFeesTableBuilder {
                     report.calcError
                 )
         );
-
         return new TariffTestingServiceInput(
             String(json.mixvelTotal),
             String(json.gdsTotal),
@@ -135,6 +126,26 @@ class TestingFeesTableBuilder {
             String(json.separateFareSuccess),
             reports
         );
+    }
+
+    private createDefaultHeaderForTariffTesting(data: TariffTestingServiceInput): HTMLDivElement {
+        const result = HtmlUtil.create('div', 'table-data-div');
+        const header = HtmlUtil.create('h2');
+        header.textContent = `Report v1.2 taxes ${new Date()}`;
+        result.appendChild(header);
+        const totalMixvel = HtmlUtil.create('h4');
+        totalMixvel.textContent = `Total mixvel ${data.mixvelTotal}`;
+        result.appendChild(totalMixvel);
+        const totalGds = HtmlUtil.create('h4');
+        totalGds.textContent = `Total gds ${data.gdsTotal}`;
+        result.appendChild(totalGds);
+        const testCasesSuccess = HtmlUtil.create('h4');
+        testCasesSuccess.textContent = `gds full answer in mixvel ${data.testCasesSuccess}`;
+        result.appendChild(testCasesSuccess);
+        const separateFareSuccess = HtmlUtil.create('h4');
+        separateFareSuccess.textContent = `gds separate result in mixvel ${data.separateFareSuccess}`;
+        result.appendChild(separateFareSuccess);
+        return result;
     }
 
     private createTdWithContent(input: string): HTMLTableCellElement {

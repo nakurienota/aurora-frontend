@@ -2,7 +2,6 @@ import InteractiveGlobe from '../classes/globe';
 import HtmlUtil from '../util/htmlutil';
 import RoutesTableBuilder from '../classes/routes-table-builder';
 import TestingFeesTableBuilder from '../classes/testing-fees-table-builder';
-import {RouteData, TariffTestingServiceInput} from "../classes/models";
 
 class AuroraFrontendApplication {
     private globe: InteractiveGlobe | undefined;
@@ -18,7 +17,7 @@ class AuroraFrontendApplication {
         const body = document.body;
         const container = HtmlUtil.create('div', 'container');
         const h1 = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.1.1';
+        h1.textContent = 'Aurora frontend V1.1.2';
         container.append(h1);
         const globeWrapper = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper = HtmlUtil.create('div', 'div-table');
@@ -81,16 +80,10 @@ class AuroraFrontendApplication {
                 try {
                     const selectedType = dataTypeSelector.value;
                     if (selectedType === 'ConstructedRoutes') {
-                        const jsonData: string = HtmlUtil.parseToString(e);
-                        const flightData = this.routeTableBuilder.parseFlightData(jsonData);
-                        const tablesDiv = this.routeTableBuilder.createHtmlTable(flightData);
-                        tableWrapper.append(tablesDiv);
+                        tableWrapper.append(this.routeTableBuilder.parseFileAndCreateHtml(e));
                         container.append(tableWrapper);
                     } else if (selectedType === 'ReportFees') {
-                        const jsonData: string = HtmlUtil.parseToString(e);
-                        const feesData: TariffTestingServiceInput = this.testingFeesTableBuilder.parseTestingFeesData(jsonData);
-                        let tableDiv: HTMLDivElement = this.testingFeesTableBuilder.createReportTable(feesData);
-                        tableWrapper.append(tableDiv);
+                        tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e));
                         container.append(tableWrapper);
                     } else {
                         errorJsonMessage.textContent = 'Нет обработчика для типа ' + selectedType;
