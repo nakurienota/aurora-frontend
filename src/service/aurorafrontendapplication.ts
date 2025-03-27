@@ -2,6 +2,7 @@ import InteractiveGlobe from '../classes/globe';
 import HtmlUtil from '../util/htmlutil';
 import RoutesTableBuilder from '../classes/routes-table-builder';
 import TestingFeesTableBuilder from '../classes/testing-fees-table-builder';
+import {RouteData, TariffTestingServiceInput} from "../classes/models";
 
 class AuroraFrontendApplication {
     private globe: InteractiveGlobe | undefined;
@@ -17,7 +18,7 @@ class AuroraFrontendApplication {
         const body = document.body;
         const container = HtmlUtil.create('div', 'container');
         const h1 = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.1.0';
+        h1.textContent = 'Aurora frontend V1.1.1';
         container.append(h1);
         const globeWrapper = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper = HtmlUtil.create('div', 'div-table');
@@ -48,6 +49,14 @@ class AuroraFrontendApplication {
         const dataTypeSelector = HtmlUtil.create('select');
         dataTypeSelector.id = 'dataType';
         const fileTypes = ['ConstructedRoutes', 'ReportFares', 'ReportSeatMap', 'ReportFees'];
+
+        const defaultOption = HtmlUtil.create('option');
+        defaultOption.value = '';
+        defaultOption.textContent = 'Тип отчета';
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        dataTypeSelector.appendChild(defaultOption);
+
         fileTypes.forEach((type) => {
             const option = HtmlUtil.create('option');
             option.value = type;
@@ -61,36 +70,40 @@ class AuroraFrontendApplication {
         container.append(inputFilesWrapper);
 
         jsonInput.addEventListener('change', (event) => {
-            const file = (event.target as HTMLInputElement).files?.[0];
+            const fileInput = event.target as HTMLInputElement;
+            const file = fileInput.files?.[0];
             if (!file) return;
+            tableWrapper.childNodes.forEach((el) => el.remove());
+
             errorJsonMessage.classList.add('hidden');
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
                     const selectedType = dataTypeSelector.value;
                     if (selectedType === 'ConstructedRoutes') {
-                        const jsonData: string = JSON.parse(e.target?.result as string);
+                        const jsonData: string = HtmlUtil.parseToString(e);
                         const flightData = this.routeTableBuilder.parseFlightData(jsonData);
                         const tablesDiv = this.routeTableBuilder.createHtmlTable(flightData);
                         tableWrapper.append(tablesDiv);
                         container.append(tableWrapper);
                     } else if (selectedType === 'ReportFees') {
-                        const jsonData: string = JSON.parse(e.target?.result as string);
-                        const feesData = this.testingFeesTableBuilder.parseTestingFeesData(jsonData);
-                        const tableDiv = this.testingFeesTableBuilder.createReportTable(feesData);
+                        const jsonData: string = HtmlUtil.parseToString(e);
+                        const feesData: TariffTestingServiceInput = this.testingFeesTableBuilder.parseTestingFeesData(jsonData);
+                        let tableDiv: HTMLDivElement = this.testingFeesTableBuilder.createReportTable(feesData);
                         tableWrapper.append(tableDiv);
                         container.append(tableWrapper);
                     } else {
                         errorJsonMessage.textContent = 'Нет обработчика для типа ' + selectedType;
                         errorJsonMessage.classList.remove('hidden');
                     }
+                    defaultOption.selected = true;
                 } catch (error) {
                     errorJsonMessage.textContent = 'JSON не парсится, проверяйте структуру';
                     errorJsonMessage.classList.remove('hidden');
                 }
             };
-
             reader.readAsText(file);
+            fileInput.value = '';
         });
 
         this.globe.createRoute(4.70138889, -74.14694444, 36.90027778, 30.79277778);

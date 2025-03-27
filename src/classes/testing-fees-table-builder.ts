@@ -3,20 +3,20 @@ import HtmlUtil from '../util/htmlutil';
 
 class TestingFeesTableBuilder {
     createReportTable(data: TariffTestingServiceInput): HTMLDivElement {
-        const htmlContainer = document.createElement('div');
-        const header = document.createElement('h2');
+        const htmlContainer = HtmlUtil.create('div', 'table-data-div');
+        const header = HtmlUtil.create('h2');
         header.textContent = `Report v1.2 taxes ${new Date()}`;
         htmlContainer.appendChild(header);
-        const totalMixvel = document.createElement('h4');
+        const totalMixvel = HtmlUtil.create('h4');
         totalMixvel.textContent = `Total mixvel ${data.mixvelTotal}`;
         htmlContainer.appendChild(totalMixvel);
-        const totalGds = document.createElement('h4');
+        const totalGds = HtmlUtil.create('h4');
         totalGds.textContent = `Total gds ${data.gdsTotal}`;
         htmlContainer.appendChild(totalGds);
-        const testCasesSuccess = document.createElement('h4');
+        const testCasesSuccess = HtmlUtil.create('h4');
         testCasesSuccess.textContent = `gds full answer in mixvel ${data.testCasesSuccess}`;
         htmlContainer.appendChild(testCasesSuccess);
-        const separateFareSuccess = document.createElement('h4');
+        const separateFareSuccess = HtmlUtil.create('h4');
         separateFareSuccess.textContent = `gds separate result in mixvel ${data.separateFareSuccess}`;
         htmlContainer.appendChild(separateFareSuccess);
 
@@ -58,9 +58,7 @@ class TestingFeesTableBuilder {
                 ];
 
                 cellsData.forEach((cellText) => {
-                    const td = HtmlUtil.create('td');
-                    td.textContent = cellText;
-                    tr.appendChild(td);
+                    tr.appendChild(this.createTdWithContent(cellText));
                 });
 
                 tbody.appendChild(tr);
@@ -80,9 +78,7 @@ class TestingFeesTableBuilder {
                     item.testCaseDto.tariffSourceCode, 'feeTaxGds', entry.feeCode, entry.feeType, entry.amount, entry.currency,];
 
                 cellsData.forEach((cellText) => {
-                    const td = HtmlUtil.create('td');
-                    td.textContent = cellText;
-                    tr.appendChild(td);
+                    tr.appendChild(this.createTdWithContent(cellText));
                 });
 
                 tbody.appendChild(tr);
@@ -139,6 +135,13 @@ class TestingFeesTableBuilder {
             String(json.separateFareSuccess),
             reports
         );
+    }
+
+    private createTdWithContent(input: string): HTMLTableCellElement {
+        const td = document.createElement('td');
+        td.textContent = input;
+        td.classList.add('error-cell');
+        return td;
     }
 }
 

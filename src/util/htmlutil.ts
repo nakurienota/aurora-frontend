@@ -9,6 +9,17 @@ class HtmlUtil {
         if (className) element.className = className;
         return element;
     }
+
+    static parseToString(input: ProgressEvent<FileReader>): string {
+        try {
+            const result = input.target?.result;
+            if (typeof result === 'string')
+                return JSON.parse(result);
+            else return '';
+        } catch (error) {
+            return '';
+        }
+    }
 }
 
 export default HtmlUtil;
