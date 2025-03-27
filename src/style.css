@@ -1,17 +1,17 @@
 :root {
-    --color-primary: rgba(255, 70, 70, 1);
-    --color-primary-10: rgba(255, 70, 70, 0.1);
-    --color-dark: rgba(24, 28, 41, 1);
-    --color-dark-40: rgba(24, 28, 41, 0.4);
-    --color-static-white: rgba(255, 255, 255, 1);
-    --color-static-white-40: rgba(255, 255, 255, 0.4);
-    --color-static-white-20: rgba(255, 255, 255, 0.2);
-    --color-tag-purple: rgba(67, 97, 255, 1);
-    --color-tag-pink: rgba(255, 67, 247, 1);
-    --color-tag-green: rgba(6, 164, 79, 1);
-    --color-content-background: rgba(236, 243, 248, 1);
-    --color-overlay: rgba(24, 28, 41, 0.8);
-    --font-family-primary: Montserrat;
+    --color-primary: rgb(255 70 70 / 100%);
+    --color-primary-10: rgb(255 70 70 / 10%);
+    --color-dark: rgb(24 28 41 / 100%);
+    --color-dark-40: rgb(24 28 41 / 40%);
+    --color-static-white: rgb(255 255 255 / 100%);
+    --color-static-white-40: rgb(255 255 255 / 40%);
+    --color-static-white-20: rgb(255 255 255 / 20%);
+    --color-tag-purple: rgb(67 97 255 / 100%);
+    --color-tag-pink: rgb(255 67 247 / 100%);
+    --color-tag-green: rgb(6 164 79 / 100%);
+    --color-content-background: rgb(236 243 248 / 100%);
+    --color-overlay: rgb(24 28 41 / 80%);
+    --font-family-primary: montserrat;
     --font-weight-primary: 600;
 }
 
@@ -24,15 +24,10 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
     width: 100%;
 }
 
-#div_table {
-    max-width: 100%;
-}
-
-#div_globe_wrapper {
+#div-globe-wrapper {
     display: none;
     position: fixed;
     z-index: 1000;
@@ -55,7 +50,7 @@ body {
     align-items: center;
 }
 
-#div_globe_modal__close_btn {
+#div-globe-modal-close-btn {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -80,7 +75,7 @@ body {
 
 table {
     border-collapse: collapse;
-    width: 100%;
+    width: 90vw;
 }
 
 th, td {
@@ -89,12 +84,16 @@ th, td {
     text-align: left;
 }
 
+.error-cell {
+    max-width: 300px;
+}
+
 h4 {
     margin: 5px;
 }
 
 td {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 th {
@@ -109,3 +108,29 @@ th {
     background-color: #f8d7da;
 }
 
+#input-files-wrapper {
+    margin: 10px;
+    padding: 10px;
+
+    select {
+        font-size: 16px;
+    }
+
+    input {
+        font-size: 16px;
+    }
+}
+
+#error-json-message {
+    background-color: salmon;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.show {
+    display: flex;
+}

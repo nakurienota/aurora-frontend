@@ -1,7 +1,7 @@
-import * as THREE from "three";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // @ts-ignore
-import mapTexture from "../assets/globe/politicial_valid.jpg";
+import mapTexture from '../assets/globe/politicial_valid.jpg';
 
 class InteractiveGlobe {
     private scene: THREE.Scene;
@@ -13,10 +13,10 @@ class InteractiveGlobe {
     constructor(private readonly container: HTMLElement) {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.domElement.style.width = "100%";
-        this.renderer.domElement.style.height = "100%";
+        this.renderer.domElement.style.width = '100%';
+        this.renderer.domElement.style.height = '100%';
         this.container.appendChild(this.renderer.domElement);
 
         const geometry = new THREE.SphereGeometry(5, 128, 128);
@@ -30,7 +30,7 @@ class InteractiveGlobe {
             map: texture,
             normalMap: normalMap,
             metalness: 0.3,
-            roughness: 0.7
+            roughness: 0.7,
         });
         this.globe = new THREE.Mesh(geometry, material);
         this.scene.add(this.globe);
@@ -62,7 +62,7 @@ class InteractiveGlobe {
 
     public addPoint(lat: number, lon: number, inputColor: string): void {
         const pointGeometry = new THREE.SphereGeometry(0.03, 8, 8);
-        const pointMaterial = new THREE.MeshBasicMaterial({color: inputColor});
+        const pointMaterial = new THREE.MeshBasicMaterial({ color: inputColor });
         const point = new THREE.Mesh(pointGeometry, pointMaterial);
         point.position.copy(this.latLonToVector3(lat, lon));
         this.scene.add(point);
@@ -85,7 +85,7 @@ class InteractiveGlobe {
         }
 
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const material = new THREE.LineBasicMaterial({color: inputColor});
+        const material = new THREE.LineBasicMaterial({ color: inputColor });
 
         const line = new THREE.Line(geometry, material);
         this.scene.add(line);
@@ -110,8 +110,10 @@ class InteractiveGlobe {
     }
 
     public getRandomHexColor() {
-        return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
-    };
+        return `#${Math.floor(Math.random() * 16777215)
+            .toString(16)
+            .padStart(6, '0')}`;
+    }
 }
 
 export default InteractiveGlobe;
