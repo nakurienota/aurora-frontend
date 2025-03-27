@@ -10,8 +10,7 @@ export default {
     entry: './src/index.ts',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: './'
+        path: path.resolve(__dirname, 'dist')
     },
     mode: 'development',
     devServer: {

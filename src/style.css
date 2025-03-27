@@ -24,14 +24,12 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border: 1px greenyellow solid;
+
+    width: 100%;
 }
 
-#div_table{
-    border: 1px greenyellow solid;
-    background-color: greenyellow;
-    min-width: 1200px;
-    max-width: 1600px;
+#div_table {
+    max-width: 100%;
 }
 
 #div_globe_wrapper {
@@ -64,12 +62,12 @@ body {
 }
 
 .default-btn {
-    font-size: 30px;
+    font-size: 16px;
     padding: 10px;
     border-radius: 5px;
     border: 2px var(--color-dark) solid;
     color: var(--color-dark);
-    background-color: var(--color-static-white-40);
+    background-color: var(--color-static-white);
 }
 
 .default-btn:hover {
@@ -77,5 +75,37 @@ body {
     transition: all 1s;
     border: 2px var(--color-dark-40) solid;
     color: var(--color-dark-40);
-    background-color: var(--color-static-white-20);
+    background-color: var(--color-static-white);
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+h4 {
+    margin: 5px;
+}
+
+td {
+    font-size: 20px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.green {
+    background-color: #d4edda;
+}
+
+.red {
+    background-color: #f8d7da;
+}
+
