@@ -1,0 +1,81 @@
+:root {
+    --color-primary: rgba(255, 70, 70, 1);
+    --color-primary-10: rgba(255, 70, 70, 0.1);
+    --color-dark: rgba(24, 28, 41, 1);
+    --color-dark-40: rgba(24, 28, 41, 0.4);
+    --color-static-white: rgba(255, 255, 255, 1);
+    --color-static-white-40: rgba(255, 255, 255, 0.4);
+    --color-static-white-20: rgba(255, 255, 255, 0.2);
+    --color-tag-purple: rgba(67, 97, 255, 1);
+    --color-tag-pink: rgba(255, 67, 247, 1);
+    --color-tag-green: rgba(6, 164, 79, 1);
+    --color-content-background: rgba(236, 243, 248, 1);
+    --color-overlay: rgba(24, 28, 41, 0.8);
+    --font-family-primary: Montserrat;
+    --font-weight-primary: 600;
+}
+
+body {
+    font-family: Montserrat, sans-serif;
+}
+
+#container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px greenyellow solid;
+}
+
+#div_table{
+    border: 1px greenyellow solid;
+    background-color: greenyellow;
+    min-width: 1200px;
+    max-width: 1600px;
+}
+
+#div_globe_wrapper {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#div_globe_modal__close_btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.default-btn {
+    font-size: 30px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px var(--color-dark) solid;
+    color: var(--color-dark);
+    background-color: var(--color-static-white-40);
+}
+
+.default-btn:hover {
+    cursor: pointer;
+    transition: all 1s;
+    border: 2px var(--color-dark-40) solid;
+    color: var(--color-dark-40);
+    background-color: var(--color-static-white-20);
+}
