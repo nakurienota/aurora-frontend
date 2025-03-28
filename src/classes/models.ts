@@ -32,6 +32,8 @@ export class TariffTestingServiceInput {
 export class Report {
     constructor(
         public testCaseDto: TestCaseData,
+        public gds: TestFareData[],
+        public mixvel: TestFareData[],
         public feeTaxMixvel: TestTaxData[],
         public feeTaxGds: TestTaxData[],
         public calcError: string
@@ -58,6 +60,15 @@ export class TestTaxData {
         public feeType: string,
         public amount: string,
         public currency: string,
+        public exists: boolean
+    ) {}
+}
+
+export class TestFareData {
+    constructor(
+        public baseFareCode: string,
+        public fareLevel: string,
+        public fareCurrency: string,
         public exists: boolean
     ) {}
 }

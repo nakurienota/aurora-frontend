@@ -51,7 +51,7 @@ class AuroraFrontendApplication {
 
         const defaultOption = HtmlUtil.create('option');
         defaultOption.value = '';
-        defaultOption.textContent = 'Тип отчета';
+        defaultOption.textContent = 'Тип таблицы';
         defaultOption.disabled = true;
         defaultOption.selected = true;
         dataTypeSelector.appendChild(defaultOption);
@@ -84,6 +84,9 @@ class AuroraFrontendApplication {
                         container.append(tableWrapper);
                     } else if (selectedType === 'ReportFees') {
                         tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e));
+                        container.append(tableWrapper);
+                    } else if (selectedType === 'ReportFares'){
+                        tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFaresHtml(e));
                         container.append(tableWrapper);
                     } else {
                         errorJsonMessage.textContent = 'Нет обработчика для типа ' + selectedType;

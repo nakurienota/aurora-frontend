@@ -9,6 +9,7 @@
     "start": "webpack-dev-server",
     "build": "webpack",
     "lint": "eslint .",
+    "lint:fix": "eslint --fix",
     "stylelint": "stylelint src/*.css",
     "stylelint:fix": "stylelint src/*.css --fix",
     "deploy": "gh-pages -d dist"
