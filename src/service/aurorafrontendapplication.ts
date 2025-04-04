@@ -2,25 +2,25 @@ import InteractiveGlobe from '../classes/globe';
 import HtmlUtil from '../util/htmlutil';
 import RoutesTableBuilder from '../classes/routes-table-builder';
 import TestingFeesTableBuilder from '../classes/testing-fees-table-builder';
-import RoutesTableBuilderV2 from "../classes/routes-table-builder-v2";
+import RoutesTableBuilderV3 from "../classes/routes-table-builder-v3";
 
 class AuroraFrontendApplication {
     private globe: InteractiveGlobe | undefined;
     private readonly routeTableBuilder: RoutesTableBuilder;
     private readonly testingFeesTableBuilder: TestingFeesTableBuilder;
-    private readonly routeTableBuilderV2: RoutesTableBuilderV2;
+    private readonly routeTableBuilderV3: RoutesTableBuilderV3;
 
     constructor() {
         this.routeTableBuilder = new RoutesTableBuilder();
         this.testingFeesTableBuilder = new TestingFeesTableBuilder();
-        this.routeTableBuilderV2 = new RoutesTableBuilderV2();
+        this.routeTableBuilderV3 = new RoutesTableBuilderV3();
     }
 
     start() {
         const body: HTMLElement = document.body;
         const container: HTMLDivElement = HtmlUtil.create('div', 'container');
         const h1: HTMLHeadingElement = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.2.1';
+        h1.textContent = 'Aurora frontend V1.2.2';
         container.append(h1);
         const globeWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-table');
@@ -42,36 +42,36 @@ class AuroraFrontendApplication {
             globeWrapper.style.display = 'none';
         });
 
-        const inputFilesWrapper = HtmlUtil.create('div', 'input-files-wrapper');
-        const jsonInput = HtmlUtil.create('input');
+        const inputFilesWrapper: HTMLDivElement = HtmlUtil.create('div', 'input-files-wrapper');
+        const jsonInput: HTMLInputElement = HtmlUtil.create('input');
         jsonInput.type = 'file';
         jsonInput.accept = 'application/json';
         inputFilesWrapper.append(jsonInput);
 
         const dataTypeSelector = HtmlUtil.create('select');
         dataTypeSelector.id = 'dataType';
-        const fileTypes = ['ConstructedRoutes', 'ConstructedRoutesV2', 'ReportFares', 'ReportSeatMap', 'ReportFees'];
+        const fileTypes: string[] = ['ConstructedRoutes', 'ConstructedRoutesV3', 'ReportFares', 'ReportSeatMap', 'ReportFees'];
 
-        const defaultOption = HtmlUtil.create('option');
+        const defaultOption: HTMLOptionElement = HtmlUtil.create('option');
         defaultOption.value = '';
         defaultOption.textContent = 'Тип таблицы';
         defaultOption.disabled = true;
         defaultOption.selected = true;
         dataTypeSelector.appendChild(defaultOption);
 
-        fileTypes.forEach((type) => {
-            const option = HtmlUtil.create('option');
+        fileTypes.forEach((type: string) => {
+            const option: HTMLOptionElement = HtmlUtil.create('option');
             option.value = type;
             option.textContent = type;
             dataTypeSelector.appendChild(option);
         });
-        const errorJsonMessage = HtmlUtil.create('p', 'error-json-message');
+        const errorJsonMessage: HTMLParagraphElement = HtmlUtil.create('p', 'error-json-message');
         errorJsonMessage.classList.add('hidden');
         inputFilesWrapper.append(dataTypeSelector);
         inputFilesWrapper.append(errorJsonMessage);
         container.append(inputFilesWrapper);
 
-        jsonInput.addEventListener('change', (event) => {
+        jsonInput.addEventListener('change', (event: Event) => {
             const fileInput = event.target as HTMLInputElement;
             const file = fileInput.files?.[0];
             if (!file) return;
@@ -85,8 +85,8 @@ class AuroraFrontendApplication {
                     if (selectedType === 'ConstructedRoutes') {
                         tableWrapper.append(this.routeTableBuilder.parseFileAndCreateHtml(e));
                         container.append(tableWrapper);
-                    } else if (selectedType === 'ConstructedRoutesV2') {
-                        tableWrapper.append(this.routeTableBuilderV2.parseFileAndCreateHtml(e));
+                    } else if (selectedType === 'ConstructedRoutesV3') {
+                        tableWrapper.append(this.routeTableBuilderV3.parseFileAndCreateHtml(e));
                         container.append(tableWrapper);
                     } else if (selectedType === 'ReportFees') {
                         tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e));

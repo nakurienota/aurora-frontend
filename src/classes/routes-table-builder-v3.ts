@@ -1,14 +1,14 @@
 import HtmlUtil from '../util/htmlutil';
-import {Raid, RouteDataV2, SegmentV2} from './models';
+import {Raid, RouteDataV3, SegmentV3} from './models';
 
-class RoutesTableBuilderV2 {
+class RoutesTableBuilderV3 {
     parseFileAndCreateHtml(input: ProgressEvent<FileReader>): HTMLDivElement {
         const jsonData: string = HtmlUtil.parseToString(input);
-        const flightData: RouteDataV2[] = this.parseRouteDataList(jsonData);
+        const flightData: RouteDataV3[] = this.parseRouteDataList(jsonData);
         return this.createHtmlTable(flightData);
     }
 
-    createHtmlTable(input: RouteDataV2[]): HTMLDivElement {
+    createHtmlTable(input: RouteDataV3[]): HTMLDivElement {
         const container: HTMLDivElement = HtmlUtil.create('div', 'table-data-div');
         for (const el of input) {
             const title: HTMLHeadingElement = HtmlUtil.create('h2');
@@ -59,8 +59,8 @@ class RoutesTableBuilderV2 {
         return container;
     }
 
-    parseRouteDataList(json: any): RouteDataV2[] {
-        return json.map((item: RouteDataV2) => new RouteDataV2(
+    parseRouteDataList(json: any): RouteDataV3[] {
+        return json.map((item: RouteDataV3) => new RouteDataV3(
             item.path,
             this.parseSegment(item.segment1),
             item.segment2 ? this.parseSegment(item.segment2) : null,
@@ -69,12 +69,12 @@ class RoutesTableBuilderV2 {
         ));
     }
 
-    parseSegment(segment: any): SegmentV2 {
+    parseSegment(segment: any): SegmentV3 {
         const flights: any = (segment.flights ?? []).map((raid: Raid) => new Raid(
             raid.airline, raid.flight, raid.departureDate, raid.departureTime, raid.arrivalDate,
             raid.arrivalTime, raid.departureCode, raid.arrivalCode));
 
-        return new SegmentV2(flights, segment.dep, segment.dest);
+        return new SegmentV3(flights, segment.dep, segment.dest);
     }
 
     private createRaidTd(input: Raid[]): HTMLTableCellElement {
@@ -93,4 +93,4 @@ class RoutesTableBuilderV2 {
     }
 }
 
-export default RoutesTableBuilderV2;
+export default RoutesTableBuilderV3;

@@ -19,17 +19,17 @@ export class RouteData {
     constructor(public routes: Record<string, Models>) {}
 }
 
-export class RouteDataV2 {
+export class RouteDataV3 {
     constructor(
         public path: string,
-        public segment1: SegmentV2,
-        public segment2: SegmentV2 | null,
-        public segment3: SegmentV2 | null,
-        public segment4: SegmentV2 | null
+        public segment1: SegmentV3,
+        public segment2: SegmentV3 | null,
+        public segment3: SegmentV3 | null,
+        public segment4: SegmentV3 | null
     ) {}
 }
 
-export class SegmentV2 {
+export class SegmentV3 {
     constructor(
         public flights: Raid[],
         public dep: string,
