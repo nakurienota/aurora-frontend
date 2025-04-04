@@ -13,8 +13,7 @@ class HtmlUtil {
     static parseToString(input: ProgressEvent<FileReader>): string {
         try {
             const result = input.target?.result;
-            if (typeof result === 'string')
-                return JSON.parse(result);
+            if (typeof result === 'string') return JSON.parse(result);
             else return '';
         } catch (error) {
             return '';

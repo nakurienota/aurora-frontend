@@ -2,28 +2,31 @@ import InteractiveGlobe from '../classes/globe';
 import HtmlUtil from '../util/htmlutil';
 import RoutesTableBuilder from '../classes/routes-table-builder';
 import TestingFeesTableBuilder from '../classes/testing-fees-table-builder';
+import RoutesTableBuilderV2 from "../classes/routes-table-builder-v2";
 
 class AuroraFrontendApplication {
     private globe: InteractiveGlobe | undefined;
     private readonly routeTableBuilder: RoutesTableBuilder;
     private readonly testingFeesTableBuilder: TestingFeesTableBuilder;
+    private readonly routeTableBuilderV2: RoutesTableBuilderV2;
 
     constructor() {
         this.routeTableBuilder = new RoutesTableBuilder();
         this.testingFeesTableBuilder = new TestingFeesTableBuilder();
+        this.routeTableBuilderV2 = new RoutesTableBuilderV2();
     }
 
     start() {
-        const body = document.body;
-        const container = HtmlUtil.create('div', 'container');
-        const h1 = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.1.2';
+        const body: HTMLElement = document.body;
+        const container: HTMLDivElement = HtmlUtil.create('div', 'container');
+        const h1: HTMLHeadingElement = HtmlUtil.create('h1');
+        h1.textContent = 'Aurora frontend V1.2.1';
         container.append(h1);
-        const globeWrapper = HtmlUtil.create('div', 'div-globe-wrapper');
-        const tableWrapper = HtmlUtil.create('div', 'div-table');
-        const globe = HtmlUtil.create('div', 'div-globe-modal');
-        const openGlobe = HtmlUtil.create('button', undefined, 'default-btn');
-        const closeGlobe = HtmlUtil.create('button', 'div-globe-modal-close-btn', 'default-btn');
+        const globeWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-globe-wrapper');
+        const tableWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-table');
+        const globe: HTMLDivElement = HtmlUtil.create('div', 'div-globe-modal');
+        const openGlobe: HTMLButtonElement = HtmlUtil.create('button', undefined, 'default-btn');
+        const closeGlobe: HTMLButtonElement = HtmlUtil.create('button', 'div-globe-modal-close-btn', 'default-btn');
         closeGlobe.textContent = 'close';
         openGlobe.textContent = 'open globe';
         container.append(openGlobe);
@@ -47,7 +50,7 @@ class AuroraFrontendApplication {
 
         const dataTypeSelector = HtmlUtil.create('select');
         dataTypeSelector.id = 'dataType';
-        const fileTypes = ['ConstructedRoutes', 'ReportFares', 'ReportSeatMap', 'ReportFees'];
+        const fileTypes = ['ConstructedRoutes', 'ConstructedRoutesV2', 'ReportFares', 'ReportSeatMap', 'ReportFees'];
 
         const defaultOption = HtmlUtil.create('option');
         defaultOption.value = '';
@@ -82,10 +85,13 @@ class AuroraFrontendApplication {
                     if (selectedType === 'ConstructedRoutes') {
                         tableWrapper.append(this.routeTableBuilder.parseFileAndCreateHtml(e));
                         container.append(tableWrapper);
+                    } else if (selectedType === 'ConstructedRoutesV2') {
+                        tableWrapper.append(this.routeTableBuilderV2.parseFileAndCreateHtml(e));
+                        container.append(tableWrapper);
                     } else if (selectedType === 'ReportFees') {
                         tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e));
                         container.append(tableWrapper);
-                    } else if (selectedType === 'ReportFares'){
+                    } else if (selectedType === 'ReportFares') {
                         tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFaresHtml(e));
                         container.append(tableWrapper);
                     } else {

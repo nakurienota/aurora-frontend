@@ -19,6 +19,24 @@ export class RouteData {
     constructor(public routes: Record<string, Models>) {}
 }
 
+export class RouteDataV2 {
+    constructor(
+        public path: string,
+        public segment1: SegmentV2,
+        public segment2: SegmentV2 | null,
+        public segment3: SegmentV2 | null,
+        public segment4: SegmentV2 | null
+    ) {}
+}
+
+export class SegmentV2 {
+    constructor(
+        public flights: Raid[],
+        public dep: string,
+        public dest: string
+    ) {}
+}
+
 export class TariffTestingServiceInput {
     constructor(
         public mixvelTotal: string,

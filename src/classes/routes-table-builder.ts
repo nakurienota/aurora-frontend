@@ -1,8 +1,7 @@
 import HtmlUtil from '../util/htmlutil';
-import {Models, Raid, RouteData} from './models';
+import { Models, Raid, RouteData } from './models';
 
 class RoutesTableBuilder {
-
     parseFileAndCreateHtml(input: ProgressEvent<FileReader>): HTMLDivElement {
         const jsonData: string = HtmlUtil.parseToString(input);
         const flightData = this.parseFlightData(jsonData);
@@ -71,8 +70,17 @@ class RoutesTableBuilder {
             for (const [segmentKey, flights] of Object.entries(segments as Models)) {
                 parsedSegments[segmentKey] = (flights as Raid[]).map(
                     (flight: Raid) =>
-                        new Raid(flight.airline, flight.flight, flight.departureDate, flight.departureTime,
-                            flight.arrivalDate, flight.arrivalTime, flight.departureCode, flight.arrivalCode));
+                        new Raid(
+                            flight.airline,
+                            flight.flight,
+                            flight.departureDate,
+                            flight.departureTime,
+                            flight.arrivalDate,
+                            flight.arrivalTime,
+                            flight.departureCode,
+                            flight.arrivalCode
+                        )
+                );
             }
             parsedRoutes[routeKey] = new Models(parsedSegments);
         }

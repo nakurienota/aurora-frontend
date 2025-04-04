@@ -1,8 +1,7 @@
-import {Report, TariffTestingServiceInput, TestCaseData, TestFareData, TestTaxData} from './models';
+import { Report, TariffTestingServiceInput, TestCaseData, TestFareData, TestTaxData } from './models';
 import HtmlUtil from '../util/htmlutil';
 
 class TestingFeesTableBuilder {
-
     parseFileAndCreateFeesHtml(input: ProgressEvent<FileReader>): HTMLDivElement {
         const jsonData: string = HtmlUtil.parseToString(input);
         const flightData = this.parseTestingFeesData(jsonData);
@@ -21,8 +20,22 @@ class TestingFeesTableBuilder {
         const table = HtmlUtil.create('table');
         const thead = HtmlUtil.create('thead');
         const trHead = HtmlUtil.create('tr');
-        const headers = ['From', 'To', 'Carrier', 'Date', 'Pax', 'Flight', 'Rbd', 'ATPCO/CST',
-            'Source', 'FeeCode', 'FeeType', 'Amount', 'Currency', 'Error',];
+        const headers = [
+            'From',
+            'To',
+            'Carrier',
+            'Date',
+            'Pax',
+            'Flight',
+            'Rbd',
+            'ATPCO/CST',
+            'Source',
+            'FeeCode',
+            'FeeType',
+            'Amount',
+            'Currency',
+            'Error',
+        ];
 
         headers.forEach((headerText) => {
             const th = HtmlUtil.create('th');
@@ -73,7 +86,13 @@ class TestingFeesTableBuilder {
                     subIndex === 0 ? item.testCaseDto.passengerCode || '' : '',
                     subIndex === 0 ? item.testCaseDto.flightNumber || '' : '',
                     subIndex === 0 ? item.testCaseDto.bookingCode || '' : '',
-                    item.testCaseDto.tariffSourceCode, 'feeTaxGds', entry.feeCode, entry.feeType, entry.amount, entry.currency,];
+                    item.testCaseDto.tariffSourceCode,
+                    'feeTaxGds',
+                    entry.feeCode,
+                    entry.feeType,
+                    entry.amount,
+                    entry.currency,
+                ];
 
                 cellsData.forEach((cellText) => {
                     tr.appendChild(this.createTdWithContent(cellText));
@@ -86,9 +105,22 @@ class TestingFeesTableBuilder {
                 const trError = HtmlUtil.create('tr');
                 trError.classList.add('red');
 
-                const errorCells = [item.testCaseDto.from, item.testCaseDto.to, item.testCaseDto.carrier,
-                    item.testCaseDto.date, item.testCaseDto.passengerCode, item.testCaseDto.flightNumber, item.testCaseDto.bookingCode,
-                    item.testCaseDto.tariffSourceCode, '', '', '', '', '', item.calcError,];
+                const errorCells = [
+                    item.testCaseDto.from,
+                    item.testCaseDto.to,
+                    item.testCaseDto.carrier,
+                    item.testCaseDto.date,
+                    item.testCaseDto.passengerCode,
+                    item.testCaseDto.flightNumber,
+                    item.testCaseDto.bookingCode,
+                    item.testCaseDto.tariffSourceCode,
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    item.calcError,
+                ];
 
                 errorCells.forEach((cellText) => {
                     const td = document.createElement('td');
@@ -113,8 +145,21 @@ class TestingFeesTableBuilder {
         const table = HtmlUtil.create('table');
         const thead = HtmlUtil.create('thead');
         const trHead = HtmlUtil.create('tr');
-        const headers = ['From', 'To', 'Carrier', 'Date', 'Pax', 'Flight', 'Rbd', 'ATPCO/CST',
-            'Source', 'BaseFareCode', 'Level','Currency', 'Error',];
+        const headers = [
+            'From',
+            'To',
+            'Carrier',
+            'Date',
+            'Pax',
+            'Flight',
+            'Rbd',
+            'ATPCO/CST',
+            'Source',
+            'BaseFareCode',
+            'Level',
+            'Currency',
+            'Error',
+        ];
 
         headers.forEach((headerText) => {
             const th = HtmlUtil.create('th');
@@ -140,7 +185,10 @@ class TestingFeesTableBuilder {
                     subIndex === 0 ? item.testCaseDto.flightNumber || '' : '',
                     subIndex === 0 ? item.testCaseDto.bookingCode || '' : '',
                     item.testCaseDto.tariffSourceCode,
-                    'gds', entry.baseFareCode, entry.fareLevel, entry.fareCurrency,
+                    'gds',
+                    entry.baseFareCode,
+                    entry.fareLevel,
+                    entry.fareCurrency,
                 ];
 
                 cellsData.forEach((cellText) => {
@@ -161,8 +209,12 @@ class TestingFeesTableBuilder {
                     subIndex === 0 ? item.testCaseDto.passengerCode || '' : '',
                     subIndex === 0 ? item.testCaseDto.flightNumber || '' : '',
                     subIndex === 0 ? item.testCaseDto.bookingCode || '' : '',
-                    item.testCaseDto.tariffSourceCode, 'mixvel',
-                    entry.baseFareCode, entry.fareLevel, entry.fareCurrency,];
+                    item.testCaseDto.tariffSourceCode,
+                    'mixvel',
+                    entry.baseFareCode,
+                    entry.fareLevel,
+                    entry.fareCurrency,
+                ];
 
                 cellsData.forEach((cellText) => {
                     tr.appendChild(this.createTdWithContent(cellText));
@@ -175,9 +227,21 @@ class TestingFeesTableBuilder {
                 const trError = HtmlUtil.create('tr');
                 trError.classList.add('red');
 
-                const errorCells = [item.testCaseDto.from, item.testCaseDto.to, item.testCaseDto.carrier,
-                    item.testCaseDto.date, item.testCaseDto.passengerCode, item.testCaseDto.flightNumber, item.testCaseDto.bookingCode,
-                    item.testCaseDto.tariffSourceCode, '', '', '', '', item.calcError,];
+                const errorCells = [
+                    item.testCaseDto.from,
+                    item.testCaseDto.to,
+                    item.testCaseDto.carrier,
+                    item.testCaseDto.date,
+                    item.testCaseDto.passengerCode,
+                    item.testCaseDto.flightNumber,
+                    item.testCaseDto.bookingCode,
+                    item.testCaseDto.tariffSourceCode,
+                    '',
+                    '',
+                    '',
+                    '',
+                    item.calcError,
+                ];
 
                 errorCells.forEach((cellText) => {
                     const td = document.createElement('td');
@@ -200,10 +264,19 @@ class TestingFeesTableBuilder {
         const reports = json.reports.map(
             (report: Report) =>
                 new Report(
-                    new TestCaseData(report.testCaseDto.from, report.testCaseDto.to, report.testCaseDto.carrier,
-                        report.testCaseDto.date, report.testCaseDto.passengerCode, report.testCaseDto.flightNumber,
-                        report.testCaseDto.bookingCode, report.testCaseDto.tariffSourceCode, report.testCaseDto.currency),
-                    [],[],
+                    new TestCaseData(
+                        report.testCaseDto.from,
+                        report.testCaseDto.to,
+                        report.testCaseDto.carrier,
+                        report.testCaseDto.date,
+                        report.testCaseDto.passengerCode,
+                        report.testCaseDto.flightNumber,
+                        report.testCaseDto.bookingCode,
+                        report.testCaseDto.tariffSourceCode,
+                        report.testCaseDto.currency
+                    ),
+                    [],
+                    [],
                     report.feeTaxMixvel.map(
                         (fee: TestTaxData) =>
                             new TestTaxData(fee.feeCode, fee.feeType, fee.amount, fee.currency, fee.exists)
@@ -228,9 +301,17 @@ class TestingFeesTableBuilder {
         const reports = json.reports.map(
             (report: Report) =>
                 new Report(
-                    new TestCaseData(report.testCaseDto.from, report.testCaseDto.to, report.testCaseDto.carrier,
-                        report.testCaseDto.date, report.testCaseDto.passengerCode, report.testCaseDto.flightNumber,
-                        report.testCaseDto.bookingCode, report.testCaseDto.tariffSourceCode, report.testCaseDto.currency),
+                    new TestCaseData(
+                        report.testCaseDto.from,
+                        report.testCaseDto.to,
+                        report.testCaseDto.carrier,
+                        report.testCaseDto.date,
+                        report.testCaseDto.passengerCode,
+                        report.testCaseDto.flightNumber,
+                        report.testCaseDto.bookingCode,
+                        report.testCaseDto.tariffSourceCode,
+                        report.testCaseDto.currency
+                    ),
                     report.gds.map(
                         (fee: TestFareData) =>
                             new TestFareData(fee.baseFareCode, fee.fareLevel, fee.fareCurrency, fee.exists)
@@ -238,7 +319,9 @@ class TestingFeesTableBuilder {
                     report.mixvel.map(
                         (fee: TestFareData) =>
                             new TestFareData(fee.baseFareCode, fee.fareLevel, fee.fareCurrency, fee.exists)
-                    ),[],[],
+                    ),
+                    [],
+                    [],
                     report.calcError
                 )
         );
@@ -251,7 +334,7 @@ class TestingFeesTableBuilder {
         );
     }
 
-    private createDefaultHeaderForTariffTesting(data: TariffTestingServiceInput, ): HTMLDivElement {
+    private createDefaultHeaderForTariffTesting(data: TariffTestingServiceInput): HTMLDivElement {
         const result = HtmlUtil.create('div', 'table-data-div');
         const header = HtmlUtil.create('h2');
         header.textContent = `${new Date()}`;
