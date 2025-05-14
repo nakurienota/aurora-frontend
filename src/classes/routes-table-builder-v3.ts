@@ -1,5 +1,5 @@
 import HtmlUtil from '../util/htmlutil';
-import {Raid, RouteDataV3, SegmentV3} from './models';
+import { Raid, RouteDataV3, SegmentV3 } from './models';
 
 class RoutesTableBuilderV3 {
     parseFileAndCreateHtml(input: ProgressEvent<FileReader>): HTMLDivElement {
@@ -44,12 +44,9 @@ class RoutesTableBuilderV3 {
             const tbody: HTMLTableSectionElement = HtmlUtil.create('tbody');
             const trBody: HTMLTableRowElement = HtmlUtil.create('tr');
             trBody.appendChild(this.createRaidTd(el.segment1.flights));
-            if (el.segment2)
-                trBody.appendChild(this.createRaidTd(el.segment2.flights));
-            if (el.segment3)
-                trBody.appendChild(this.createRaidTd(el.segment3.flights));
-            if (el.segment4)
-                trBody.appendChild(this.createRaidTd(el.segment4.flights));
+            if (el.segment2) trBody.appendChild(this.createRaidTd(el.segment2.flights));
+            if (el.segment3) trBody.appendChild(this.createRaidTd(el.segment3.flights));
+            if (el.segment4) trBody.appendChild(this.createRaidTd(el.segment4.flights));
 
             tbody.appendChild(trBody);
             table.appendChild(tbody);
@@ -60,19 +57,33 @@ class RoutesTableBuilderV3 {
     }
 
     parseRouteDataList(json: any): RouteDataV3[] {
-        return json.map((item: RouteDataV3) => new RouteDataV3(
-            item.path,
-            this.parseSegment(item.segment1),
-            item.segment2 ? this.parseSegment(item.segment2) : null,
-            item.segment3 ? this.parseSegment(item.segment3) : null,
-            item.segment4 ? this.parseSegment(item.segment4) : null
-        ));
+        return json.map(
+            (item: RouteDataV3) =>
+                new RouteDataV3(
+                    item.path,
+                    this.parseSegment(item.segment1),
+                    item.segment2 ? this.parseSegment(item.segment2) : null,
+                    item.segment3 ? this.parseSegment(item.segment3) : null,
+                    item.segment4 ? this.parseSegment(item.segment4) : null
+                )
+        );
     }
 
     parseSegment(segment: any): SegmentV3 {
-        const flights: any = (segment.flights ?? []).map((raid: Raid) => new Raid(
-            raid.airline, raid.flight, raid.departureDate, raid.departureTime, raid.arrivalDate,
-            raid.arrivalTime, raid.departureCode, raid.arrivalCode));
+        const flights: any = (segment.flights ?? []).map(
+            (raid: Raid) =>
+                new Raid(
+                    raid.airline,
+                    raid.flight,
+                    raid.departureDate,
+                    raid.departureTime,
+                    raid.arrivalDate,
+                    raid.arrivalTime,
+                    raid.departureCode,
+                    raid.arrivalCode,
+                    raid.type
+                )
+        );
 
         return new SegmentV3(flights, segment.dep, segment.dest);
     }

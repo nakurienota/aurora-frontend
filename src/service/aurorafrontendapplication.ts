@@ -2,25 +2,28 @@ import InteractiveGlobe from '../classes/globe';
 import HtmlUtil from '../util/htmlutil';
 import RoutesTableBuilder from '../classes/routes-table-builder';
 import TestingFeesTableBuilder from '../classes/testing-fees-table-builder';
-import RoutesTableBuilderV3 from "../classes/routes-table-builder-v3";
+import RoutesTableBuilderV3 from '../classes/routes-table-builder-v3';
+import { RoutesTableBuilderV4 } from '../classes/routes-table-builder-v4';
 
 class AuroraFrontendApplication {
     private globe: InteractiveGlobe | undefined;
     private readonly routeTableBuilder: RoutesTableBuilder;
     private readonly testingFeesTableBuilder: TestingFeesTableBuilder;
     private readonly routeTableBuilderV3: RoutesTableBuilderV3;
+    private readonly routeTableBuilderV4: RoutesTableBuilderV4;
 
     constructor() {
         this.routeTableBuilder = new RoutesTableBuilder();
         this.testingFeesTableBuilder = new TestingFeesTableBuilder();
         this.routeTableBuilderV3 = new RoutesTableBuilderV3();
+        this.routeTableBuilderV4 = new RoutesTableBuilderV4();
     }
 
     start() {
         const body: HTMLElement = document.body;
         const container: HTMLDivElement = HtmlUtil.create('div', 'container');
         const h1: HTMLHeadingElement = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.2.2';
+        h1.textContent = 'Aurora frontend V1.3.2';
         container.append(h1);
         const globeWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-table');
@@ -29,11 +32,11 @@ class AuroraFrontendApplication {
         const closeGlobe: HTMLButtonElement = HtmlUtil.create('button', 'div-globe-modal-close-btn', 'default-btn');
         closeGlobe.textContent = 'close';
         openGlobe.textContent = 'open globe';
-        container.append(openGlobe);
+        // container.append(openGlobe);
         this.globe = new InteractiveGlobe(globe);
         globeWrapper.append(globe);
         globeWrapper.append(closeGlobe);
-        container.append(globeWrapper);
+        // container.append(globeWrapper);
         body.append(container);
         openGlobe.addEventListener('click', () => {
             globeWrapper.style.display = 'flex';
@@ -50,7 +53,14 @@ class AuroraFrontendApplication {
 
         const dataTypeSelector = HtmlUtil.create('select');
         dataTypeSelector.id = 'dataType';
-        const fileTypes: string[] = ['ConstructedRoutes', 'ConstructedRoutesV3', 'ReportFares', 'ReportSeatMap', 'ReportFees'];
+        const fileTypes: string[] = [
+            'ConstructedRoutes',
+            'ConstructedRoutesV3',
+            'ConstructedRoutesV4',
+            'ReportFares',
+            'ReportSeatMap',
+            'ReportFees',
+        ];
 
         const defaultOption: HTMLOptionElement = HtmlUtil.create('option');
         defaultOption.value = '';
@@ -81,22 +91,33 @@ class AuroraFrontendApplication {
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
-                    const selectedType = dataTypeSelector.value;
-                    if (selectedType === 'ConstructedRoutes') {
-                        tableWrapper.append(this.routeTableBuilder.parseFileAndCreateHtml(e));
+                    const selectedType: string = dataTypeSelector.value;
+                    let content: HTMLElement | null = null;
+                    switch (selectedType) {
+                        case 'ConstructedRoutes':
+                            content = this.routeTableBuilder.parseFileAndCreateHtml(e);
+                            break;
+                        case 'ConstructedRoutesV3':
+                            content = this.routeTableBuilderV3.parseFileAndCreateHtml(e);
+                            break;
+                        case 'ConstructedRoutesV4':
+                            content = this.routeTableBuilderV4.parseFileAndCreateHtml(e);
+                            break;
+                        case 'ReportFees':
+                            content = this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e);
+                            break;
+                        case 'ReportFares':
+                            content = this.testingFeesTableBuilder.parseFileAndCreateFaresHtml(e);
+                            break;
+                        default:
+                            errorJsonMessage.textContent = 'Нет обработчика для типа ' + selectedType;
+                            errorJsonMessage.classList.remove('hidden');
+                            break;
+                    }
+
+                    if (content) {
+                        tableWrapper.append(content);
                         container.append(tableWrapper);
-                    } else if (selectedType === 'ConstructedRoutesV3') {
-                        tableWrapper.append(this.routeTableBuilderV3.parseFileAndCreateHtml(e));
-                        container.append(tableWrapper);
-                    } else if (selectedType === 'ReportFees') {
-                        tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e));
-                        container.append(tableWrapper);
-                    } else if (selectedType === 'ReportFares') {
-                        tableWrapper.append(this.testingFeesTableBuilder.parseFileAndCreateFaresHtml(e));
-                        container.append(tableWrapper);
-                    } else {
-                        errorJsonMessage.textContent = 'Нет обработчика для типа ' + selectedType;
-                        errorJsonMessage.classList.remove('hidden');
                     }
                     defaultOption.selected = true;
                 } catch (error) {

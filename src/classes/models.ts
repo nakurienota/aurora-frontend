@@ -7,7 +7,8 @@ export class Raid {
         public arrivalDate: string,
         public arrivalTime: string,
         public departureCode: string,
-        public arrivalCode: string
+        public arrivalCode: string,
+        public type: string
     ) {}
 }
 
@@ -26,6 +27,15 @@ export class RouteDataV3 {
         public segment2: SegmentV3 | null,
         public segment3: SegmentV3 | null,
         public segment4: SegmentV3 | null
+    ) {}
+}
+
+export class RouteDataV4 {
+    constructor(
+        public segment1: Raid,
+        public segment2: Raid | null,
+        public segment3: Raid | null,
+        public segment4: Raid | null
     ) {}
 }
 
