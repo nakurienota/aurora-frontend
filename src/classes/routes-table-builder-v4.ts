@@ -23,17 +23,17 @@ export class RoutesTableBuilderV4 {
             trHead.appendChild(th1);
             if (el.segment2) {
                 const th2: HTMLTableCellElement = HtmlUtil.create('th');
-                th2.textContent = el.segment2.departureCode + el.segment2.arrivalCode + ' ' + el.segment1.type;
+                th2.textContent = el.segment2.departureCode + el.segment2.arrivalCode + ' ' + el.segment2.type;
                 trHead.appendChild(th2);
             }
             if (el.segment3) {
                 const th3: HTMLTableCellElement = HtmlUtil.create('th');
-                th3.textContent = el.segment3.departureCode + el.segment3.arrivalCode + ' ' + el.segment1.type;
+                th3.textContent = el.segment3.departureCode + el.segment3.arrivalCode + ' ' + el.segment3.type;
                 trHead.appendChild(th3);
             }
             if (el.segment4) {
                 const th4: HTMLTableCellElement = HtmlUtil.create('th');
-                th4.textContent = el.segment4.departureCode + el.segment4.arrivalCode + ' ' + el.segment1.type;
+                th4.textContent = el.segment4.departureCode + el.segment4.arrivalCode + ' ' + el.segment4.type;
                 trHead.appendChild(th4);
             }
 
