@@ -39,6 +39,12 @@ export class RouteDataV4 {
     ) {}
 }
 
+export class RouteDataV5 {
+    constructor(
+        public segments: Raid[]
+    ) {}
+}
+
 export class SegmentV3 {
     constructor(
         public flights: Raid[],

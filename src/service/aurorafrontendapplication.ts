@@ -4,6 +4,7 @@ import RoutesTableBuilder from '../classes/routes-table-builder';
 import TestingFeesTableBuilder from '../classes/testing-fees-table-builder';
 import RoutesTableBuilderV3 from '../classes/routes-table-builder-v3';
 import { RoutesTableBuilderV4 } from '../classes/routes-table-builder-v4';
+import {RoutesTableBuilderV5} from "../classes/route-table-builder-v5";
 
 class AuroraFrontendApplication {
     private globe: InteractiveGlobe | undefined;
@@ -11,19 +12,21 @@ class AuroraFrontendApplication {
     private readonly testingFeesTableBuilder: TestingFeesTableBuilder;
     private readonly routeTableBuilderV3: RoutesTableBuilderV3;
     private readonly routeTableBuilderV4: RoutesTableBuilderV4;
+    private readonly routeTableBuilderV5: RoutesTableBuilderV5;
 
     constructor() {
         this.routeTableBuilder = new RoutesTableBuilder();
         this.testingFeesTableBuilder = new TestingFeesTableBuilder();
         this.routeTableBuilderV3 = new RoutesTableBuilderV3();
         this.routeTableBuilderV4 = new RoutesTableBuilderV4();
+        this.routeTableBuilderV5 = new RoutesTableBuilderV5();
     }
 
     start() {
         const body: HTMLElement = document.body;
         const container: HTMLDivElement = HtmlUtil.create('div', 'container');
         const h1: HTMLHeadingElement = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.3.3';
+        h1.textContent = 'Aurora frontend V1.4.1';
         container.append(h1);
         const globeWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-table');
@@ -32,11 +35,11 @@ class AuroraFrontendApplication {
         const closeGlobe: HTMLButtonElement = HtmlUtil.create('button', 'div-globe-modal-close-btn', 'default-btn');
         closeGlobe.textContent = 'close';
         openGlobe.textContent = 'open globe';
-        // container.append(openGlobe);
+         container.append(openGlobe);
         this.globe = new InteractiveGlobe(globe);
         globeWrapper.append(globe);
         globeWrapper.append(closeGlobe);
-        // container.append(globeWrapper);
+         container.append(globeWrapper);
         body.append(container);
         openGlobe.addEventListener('click', () => {
             globeWrapper.style.display = 'flex';
@@ -57,6 +60,7 @@ class AuroraFrontendApplication {
             'ConstructedRoutes',
             'ConstructedRoutesV3',
             'ConstructedRoutesV4',
+            'ConstructedSpecificRoute',
             'ReportFares',
             'ReportSeatMap',
             'ReportFees',
@@ -103,6 +107,9 @@ class AuroraFrontendApplication {
                         case 'ConstructedRoutesV4':
                             content = this.routeTableBuilderV4.parseFileAndCreateHtml(e);
                             break;
+                        case 'ConstructedSpecificRoute':
+                            content = this.routeTableBuilderV5.parseFileAndCreateHtml(e);
+                            break;
                         case 'ReportFees':
                             content = this.testingFeesTableBuilder.parseFileAndCreateFeesHtml(e);
                             break;
@@ -129,9 +136,15 @@ class AuroraFrontendApplication {
             fileInput.value = '';
         });
 
-        this.globe.createRoute(4.70138889, -74.14694444, 36.90027778, 30.79277778);
-        this.globe.createRoute(55.69194444, 37.62583333, 41.66888889, 44.95472222);
-        this.globe.createRoute(59.76388889, 150.81861111, 36.90027778, 30.79277778);
+        this.globe.createRoute(46.9541, 142.736,55.75, 37.62); //uus-mow
+        this.globe.createRoute(55.75, 37.62, 	41.2646, 69.2163); //mow-tas
+        this.globe.createRoute(46.9541, 142.736, 	52.2978, 104.296);//uus-ikt
+        this.globe.createRoute(52.2978, 104.296, 41.2646, 69.2163); //ikt-tas
+
+        this.globe.createRoute(46.9541, 142.736, 	43.1333,  131.9000);//uus-vvo
+        this.globe.createRoute(43.1333,  131.9000, 41.2646, 69.2163); //vvo-tas
+        this.globe.createRoute(46.9541, 142.736, 	56.0097,  92.7917);//uus-kja
+        this.globe.createRoute(56.0097,  92.7917, 41.2646, 69.2163); //kja-tas
     }
 }
 
