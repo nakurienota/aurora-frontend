@@ -65,7 +65,8 @@ export class RoutesTableBuilderV5 {
     private createRaidTd(flight: Raid): HTMLTableCellElement {
         const td: HTMLTableCellElement = HtmlUtil.create('td');
         const div: HTMLDivElement = HtmlUtil.create('div');
-        div.textContent = `${flight.airline}-${flight.flight} ${flight.departureDate}_${flight.departureTime} - ${flight.arrivalDate}_${flight.arrivalTime}`;
+        if (flight.type !== 'transfer')
+            div.textContent = `${flight.airline}-${flight.flight} ${flight.departureDate}_${flight.departureTime} - ${flight.arrivalDate}_${flight.arrivalTime}`;
         td.appendChild(div);
         return td;
     }

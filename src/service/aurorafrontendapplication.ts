@@ -26,7 +26,7 @@ class AuroraFrontendApplication {
         const body: HTMLElement = document.body;
         const container: HTMLDivElement = HtmlUtil.create('div', 'container');
         const h1: HTMLHeadingElement = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.4.1';
+        h1.textContent = 'Aurora frontend V1.4.2';
         container.append(h1);
         const globeWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-table');
@@ -60,7 +60,7 @@ class AuroraFrontendApplication {
             'ConstructedRoutes',
             'ConstructedRoutesV3',
             'ConstructedRoutesV4',
-            'ConstructedSpecificRoute',
+            'ConstructedRoutesV5Array',
             'ReportFares',
             'ReportSeatMap',
             'ReportFees',
@@ -107,7 +107,7 @@ class AuroraFrontendApplication {
                         case 'ConstructedRoutesV4':
                             content = this.routeTableBuilderV4.parseFileAndCreateHtml(e);
                             break;
-                        case 'ConstructedSpecificRoute':
+                        case 'ConstructedRoutesV5Array':
                             content = this.routeTableBuilderV5.parseFileAndCreateHtml(e);
                             break;
                         case 'ReportFees':
