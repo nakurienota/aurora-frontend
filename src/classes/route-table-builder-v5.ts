@@ -18,8 +18,11 @@ export class RoutesTableBuilderV5 {
             const thead: HTMLTableSectionElement = HtmlUtil.create('thead');
             const trHead: HTMLTableRowElement = HtmlUtil.create('tr');
 
-            const title: HTMLHeadingElement = HtmlUtil.create('h4');
-            title.textContent = this.calculateTotalTime(el.segments);
+            if (el.segments.some(raid => raid.transferTime)) {
+                const title: HTMLHeadingElement = HtmlUtil.create('h4');
+                title.textContent = this.calculateTotalTime(el.segments);
+                container.appendChild(title);
+            }
 
             el.segments.forEach((raid) => {
                 const cell: HTMLTableCellElement = HtmlUtil.create('th');
@@ -38,7 +41,6 @@ export class RoutesTableBuilderV5 {
 
             tbody.appendChild(trBody);
             table.appendChild(tbody);
-            container.appendChild(title);
             container.appendChild(table);
         }
 
