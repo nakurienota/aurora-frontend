@@ -18,6 +18,9 @@ export class RoutesTableBuilderV5 {
             const thead: HTMLTableSectionElement = HtmlUtil.create('thead');
             const trHead: HTMLTableRowElement = HtmlUtil.create('tr');
 
+            const title: HTMLHeadingElement = HtmlUtil.create('h4');
+            title.textContent = this.calculateTotalTime(el.segments);
+
             el.segments.forEach((raid) => {
                 const cell: HTMLTableCellElement = HtmlUtil.create('th');
                 cell.textContent = raid.departureCode + raid.arrivalCode + ' ' + raid.type;
@@ -35,6 +38,7 @@ export class RoutesTableBuilderV5 {
 
             tbody.appendChild(trBody);
             table.appendChild(tbody);
+            container.appendChild(title);
             container.appendChild(table);
         }
 
@@ -58,8 +62,44 @@ export class RoutesTableBuilderV5 {
             segment.arrivalTime,
             segment.departureCode,
             segment.arrivalCode,
-            segment.type
+            segment.type,
+            segment.transferTime
         );
+    }
+
+    calculateTotalTime(segments: Raid[]): string {
+        let totalMinutes: number = 0;
+
+        for (let i: number = 0; i < segments.length; i++) {
+            const current: Raid = segments[i];
+            if (current.type === 'transfer')
+                continue;
+
+            if (current.transferTime) {
+                totalMinutes += current.transferTime;
+            }
+
+            if (i + 1 < segments.length) {
+                let next: Raid = segments[i + 1];
+                if (next.type === 'transfer')
+                    next = segments[i + 2];
+                const currentArrival = new Date(`${current.arrivalDate}T${current.arrivalTime}`);
+                const nextDeparture = new Date(`${next.departureDate}T${next.departureTime}`);
+                const diffMs: number = nextDeparture.getTime() - currentArrival.getTime();
+                const diffMinutes: number = Math.floor(diffMs / (1000 * 60));
+                totalMinutes += diffMinutes;
+            }
+        }
+
+        const days = Math.floor(totalMinutes / (60 * 24));
+        const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
+        const minutes = totalMinutes % 60;
+
+        let result = "";
+        if (days > 0) result += `${days} d `;
+        if (hours > 0 || days > 0) result += `${hours} h `;
+        result += `${minutes} m`;
+        return result.trim();
     }
 
     private createRaidTd(flight: Raid): HTMLTableCellElement {

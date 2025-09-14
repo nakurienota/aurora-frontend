@@ -77,7 +77,8 @@ export class RoutesTableBuilderV4 {
             segment.arrivalTime,
             segment.departureCode,
             segment.arrivalCode,
-            segment.type
+            segment.type,
+            segment.transferTime
         );
     }
 

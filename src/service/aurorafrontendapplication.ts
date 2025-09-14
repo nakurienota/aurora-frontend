@@ -26,7 +26,7 @@ class AuroraFrontendApplication {
         const body: HTMLElement = document.body;
         const container: HTMLDivElement = HtmlUtil.create('div', 'container');
         const h1: HTMLHeadingElement = HtmlUtil.create('h1');
-        h1.textContent = 'Aurora frontend V1.4.2';
+        h1.textContent = 'Aurora frontend V1.5.2';
         container.append(h1);
         const globeWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-globe-wrapper');
         const tableWrapper: HTMLDivElement = HtmlUtil.create('div', 'div-table');

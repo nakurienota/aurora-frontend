@@ -81,7 +81,8 @@ class RoutesTableBuilderV3 {
                     raid.arrivalTime,
                     raid.departureCode,
                     raid.arrivalCode,
-                    raid.type
+                    raid.type,
+                    raid.transferTime
                 )
         );
 

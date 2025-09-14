@@ -8,7 +8,8 @@ export class Raid {
         public arrivalTime: string,
         public departureCode: string,
         public arrivalCode: string,
-        public type: string
+        public type: string,
+        public transferTime: number
     ) {}
 }
 

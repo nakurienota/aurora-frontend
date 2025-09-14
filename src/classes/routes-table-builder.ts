@@ -79,7 +79,8 @@ class RoutesTableBuilder {
                             flight.arrivalTime,
                             flight.departureCode,
                             flight.arrivalCode,
-                            flight.type
+                            flight.type,
+                            flight.transferTime
                         )
                 );
             }
